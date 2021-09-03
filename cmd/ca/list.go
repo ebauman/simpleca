@@ -10,12 +10,9 @@ import (
 	"os"
 )
 
-var caPath string
 
 func init() {
 	CAcmd.AddCommand(listCmd)
-
-	listCmd.Flags().StringVar(&caPath, "path", fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".simpleca"), "path where CAs are stored")
 }
 
 var listCmd = &cobra.Command{
@@ -23,7 +20,7 @@ var listCmd = &cobra.Command{
 	Short: "list certificate authorities",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// get a list of directories inside the specified path
-		dirs, err := file.ListDirectories(caPath)
+		dirs, err := file.ListDirectories(capath)
 		if err != nil {
 			return err
 		}
@@ -32,8 +29,8 @@ var listCmd = &cobra.Command{
 		validCAs := map[string]*x509.Certificate{}
 
 		for _, d := range dirs {
-			var certPath = fmt.Sprintf("%s/%s/%s", caPath, d, tls.CACertFileName)
-			var keyPath = fmt.Sprintf("%s/%s/%s", caPath, d, tls.CAKeyFileName)
+			var certPath = fmt.Sprintf("%s/%s/%s", capath, d, tls.CACertFileName)
+			var keyPath = fmt.Sprintf("%s/%s/%s", capath, d, tls.CAKeyFileName)
 
 			_, cert, err := tls.LoadCA(certPath, keyPath)
 			if err != nil {
