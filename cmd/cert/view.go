@@ -7,19 +7,19 @@ import (
 	"os"
 )
 
-var includePrivkey bool
+var privKey bool
 
 func init() {
 	Certcmd.AddCommand(viewCmd)
 
-	viewCmd.Flags().BoolVar(&includePrivkey, "include-privkey", false,
-		"include private key when viewing certificate")
+	viewCmd.Flags().BoolVar(&privKey, "key", false,
+		"view private key instead of certificate")
 }
 
 var viewCmd = &cobra.Command{
-	Use: "view",
+	Use:   "view",
 	Short: "view certificate",
-	Args: cobra.MinimumNArgs(1),
+	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// first (and only?) argument is the name of the cert to view
 		fullPath := tls.FullCertPath(certConfig, caName)
@@ -27,21 +27,23 @@ var viewCmd = &cobra.Command{
 		certPath := fmt.Sprintf("%s/%s/%s", fullPath, args[0], tls.CertFileName)
 		keyPath := fmt.Sprintf("%s/%s/%s", fullPath, args[0], tls.KeyFileName)
 
-		certBytes, err := os.ReadFile(certPath)
-		if err != nil {
-			return err
-		}
-
-		if includePrivkey {
+		if privKey {
 			keyBytes, err := os.ReadFile(keyPath)
 			if err != nil {
 				return err
 			}
 
-			fmt.Println(string(keyBytes))
+			fmt.Print(string(keyBytes))
+
+			return nil
 		}
 
-		fmt.Println(string(certBytes))
+		certBytes, err := os.ReadFile(certPath)
+		if err != nil {
+			return err
+		}
+
+		fmt.Print(string(certBytes))
 
 		return nil
 	},

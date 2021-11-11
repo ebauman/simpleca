@@ -10,13 +10,12 @@ import (
 	"os"
 )
 
-
 func init() {
 	CAcmd.AddCommand(listCmd)
 }
 
 var listCmd = &cobra.Command{
-	Use: "list",
+	Use:   "list",
 	Short: "list certificate authorities",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// get a list of directories inside the specified path

@@ -25,7 +25,7 @@ func ParseDuration(durationString string) (*time.Time, error) {
 	case "year":
 		fallthrough
 	case "years":
-		expiration = expiration.AddDate(amount, 0,0)
+		expiration = expiration.AddDate(amount, 0, 0)
 	case "month":
 		fallthrough
 	case "months":
@@ -45,7 +45,7 @@ func ParseDuration(durationString string) (*time.Time, error) {
 	case "second":
 		fallthrough
 	case "seconds":
-		expiration = expiration.Add(time.Duration(amount) *time.Second)
+		expiration = expiration.Add(time.Duration(amount) * time.Second)
 	}
 
 	return &expiration, nil
