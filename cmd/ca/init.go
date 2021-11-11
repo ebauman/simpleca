@@ -19,7 +19,7 @@ func init() {
 }
 
 var initCmd = &cobra.Command{
-	Use: "init",
+	Use:   "init",
 	Short: "create a new certificate authority",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		certConfig.Path = capath

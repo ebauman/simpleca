@@ -19,6 +19,6 @@ func init() {
 }
 
 var Certcmd = &cobra.Command{
-	Use: "cert",
+	Use:   "cert",
 	Short: "operations on certificates",
 }

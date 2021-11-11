@@ -15,7 +15,7 @@ func init() {
 }
 
 var listCmd = &cobra.Command{
-	Use: "list",
+	Use:   "list",
 	Short: "list certificates",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		fullPath := fmt.Sprintf("%s/%s", certConfig.Path, caName)

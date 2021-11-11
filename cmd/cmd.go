@@ -8,8 +8,8 @@ import (
 	"os"
 )
 
-var rootCmd = &cobra.Command {
-	Use: "simpleca",
+var rootCmd = &cobra.Command{
+	Use:   "simpleca",
 	Short: "simpleca: hassle-free ca-signed certificate generation",
 	Long: `simpleca is used to generate certificate authorities and sign certificates.
 It is intended to be hassle-free, relying on defaults as much as possible but allowing for configuration. 
@@ -27,4 +27,3 @@ func Execute() {
 		os.Exit(1)
 	}
 }
-

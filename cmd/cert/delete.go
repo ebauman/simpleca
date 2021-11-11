@@ -18,10 +18,10 @@ func init() {
 		"auto confirmation of certificate deletion")
 }
 
-var deleteCmd = &cobra.Command {
-	Use: "delete",
+var deleteCmd = &cobra.Command{
+	Use:   "delete",
 	Short: "delete certificate",
-	Args: cobra.MinimumNArgs(1),
+	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		fullPath := tls.FullCertPath(certConfig, caName)
 

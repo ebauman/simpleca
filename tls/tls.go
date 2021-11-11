@@ -13,6 +13,7 @@ import (
 	"math/big"
 	"net"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -21,10 +22,10 @@ const (
 	CAKeyFileName  = "ca.key"
 
 	CertFileName = "cert.pem"
-	KeyFileName = "key.pem"
+	KeyFileName  = "key.pem"
 
 	PEMCertificate = "CERTIFICATE"
-	PEMKey = "RSA PRIVATE KEY"
+	PEMKey         = "RSA PRIVATE KEY"
 )
 
 type CertConfig struct {
@@ -41,7 +42,7 @@ type CertConfig struct {
 	DNSNames           []string
 	EmailAddresses     []string
 	URIs               []string
-	ExpireIn		   string
+	ExpireIn           string
 }
 
 func FullCAPath(conf *CertConfig) string {
@@ -157,7 +158,7 @@ func SignCert(conf *CertConfig, caName string) error {
 
 	cert.ExtKeyUsage = []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth}
 	cert.KeyUsage = x509.KeyUsageDigitalSignature
-	cert.SubjectKeyId = []byte(string(time.Now().Unix())) // HACK
+	cert.SubjectKeyId = []byte(strconv.FormatInt(time.Now().Unix(), 10)) // HACK
 
 	certPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
 	if err != nil {
@@ -233,7 +234,7 @@ func decodeKey(data []byte) (*rsa.PrivateKey, error) {
 	return key, nil
 }
 
-func genCert(conf *CertConfig, ) (*x509.Certificate, error) {
+func genCert(conf *CertConfig) (*x509.Certificate, error) {
 	uris, err := parse.ParseURIs(conf.URIs)
 	if err != nil {
 		return nil, err
@@ -275,7 +276,7 @@ func genCert(conf *CertConfig, ) (*x509.Certificate, error) {
 func PEMEncodeCert(cert []byte) ([]byte, error) {
 	certPEM := new(bytes.Buffer)
 	err := pem.Encode(certPEM, &pem.Block{
-		Type: PEMCertificate,
+		Type:  PEMCertificate,
 		Bytes: cert,
 	})
 	if err != nil {
@@ -288,7 +289,7 @@ func PEMEncodeCert(cert []byte) ([]byte, error) {
 func PEMEncodeKey(key *rsa.PrivateKey) ([]byte, error) {
 	keyPEM := new(bytes.Buffer)
 	err := pem.Encode(keyPEM, &pem.Block{
-		Type: PEMKey,
+		Type:  PEMKey,
 		Bytes: x509.MarshalPKCS1PrivateKey(key),
 	})
 	if err != nil {

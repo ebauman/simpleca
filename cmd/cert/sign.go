@@ -12,10 +12,10 @@ func init() {
 	cli.LoadCertFlags(certConfig, signCmd)
 }
 
-var signCmd = &cobra.Command {
-	Use: "sign",
+var signCmd = &cobra.Command{
+	Use:   "sign",
 	Short: "sign new certificates from a ca",
-	Args: cobra.MinimumNArgs(1), // vanity name of the cert
+	Args:  cobra.MinimumNArgs(1), // vanity name of the cert
 	RunE: func(cmd *cobra.Command, args []string) error {
 		certConfig.Name = args[0]
 		return tls.SignCert(certConfig, caName)

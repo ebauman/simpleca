@@ -17,10 +17,10 @@ func init() {
 		"auto confirmation of ca deletion")
 }
 
-var deleteCmd = &cobra.Command {
-	Use: "delete",
+var deleteCmd = &cobra.Command{
+	Use:   "delete",
 	Short: "delete certificate authority",
-	Args: cobra.MinimumNArgs(1),
+	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		caPath := fmt.Sprintf("%s/%s", capath, args[0])
 
@@ -36,7 +36,6 @@ var deleteCmd = &cobra.Command {
 				return nil
 			}
 		}
-
 
 		// confirmed either by flag or input, so delete
 
