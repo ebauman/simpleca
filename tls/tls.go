@@ -252,7 +252,7 @@ func genCert(conf *CertConfig) (*x509.Certificate, error) {
 	}
 
 	cert := &x509.Certificate{
-		SerialNumber: big.NewInt(2021),
+		SerialNumber: big.NewInt(time.Now().Unix()),
 		Subject: pkix.Name{
 			Country:            []string{conf.Country},
 			Province:           []string{conf.State},
