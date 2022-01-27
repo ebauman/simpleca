@@ -157,7 +157,7 @@ func SignCert(conf *CertConfig, caName string) error {
 	}
 
 	cert.ExtKeyUsage = []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth}
-	cert.KeyUsage = x509.KeyUsageDigitalSignature
+	cert.KeyUsage = x509.KeyUsage(x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment)
 	cert.SubjectKeyId = []byte(strconv.FormatInt(time.Now().Unix(), 10)) // HACK
 
 	certPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
