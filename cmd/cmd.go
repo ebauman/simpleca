@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/ebauman/simpleca/cmd/ca"
 	"github.com/ebauman/simpleca/cmd/cert"
+	"github.com/ebauman/simpleca/cmd/interactive"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -19,6 +20,7 @@ It is also intended to be for developers or for testing purposes. Expressly not 
 func init() {
 	rootCmd.AddCommand(ca.CAcmd)
 	rootCmd.AddCommand(cert.Certcmd)
+	rootCmd.AddCommand(interactive.InteractiveCmd)
 }
 
 func Execute() {
