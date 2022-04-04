@@ -2,22 +2,34 @@ package interactive
 
 import (
 	"fmt"
+	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
 
-// InteractiveCmd allows user-input via interactive terminal prompts
-var InteractiveCmd = &cobra.Command{
+// Interactivecmd allows user-input via interactive terminal prompts
+var Interactivecmd = &cobra.Command{
 	Use:   "interactive",
-	Short: "Interactive prompt",
+	Short: "Interactive ca/cert management",
 	Long:  `Manage CA and Certificates using an interactive prompt.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("interactive called")
+		prompt := promptui.Select{
+			Label: "Choose management target",
+			Items: []string{"ca", "cert"},
+		}
+		_, res, err := prompt.Run()
+		if err != nil {
+			fmt.Errorf("an error has occured: %w", err)
+		}
+		switch res {
+		case "ca":
+			Caprompt.Run(cmd, args)
+		case "cert":
+			Certprompt.Run(cmd, args)
+		}
 	},
 }
 
 func init() {
-	InteractiveCmd.AddCommand()
-
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

@@ -20,7 +20,7 @@ It is also intended to be for developers or for testing purposes. Expressly not 
 func init() {
 	rootCmd.AddCommand(ca.CAcmd)
 	rootCmd.AddCommand(cert.Certcmd)
-	rootCmd.AddCommand(interactive.InteractiveCmd)
+	rootCmd.AddCommand(interactive.Interactivecmd)
 }
 
 func Execute() {
