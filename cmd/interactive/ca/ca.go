@@ -1,13 +1,14 @@
-package interactive
+package ca
 
 import (
 	"fmt"
+	"github.com/ebauman/simpleca/cmd/interactive"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
 
 func init() {
-	Interactivecmd.AddCommand(Caprompt)
+	interactive.Interactivecmd.AddCommand(Caprompt)
 }
 
 var Caprompt = &cobra.Command{

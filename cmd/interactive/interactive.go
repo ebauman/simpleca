@@ -2,6 +2,8 @@ package interactive
 
 import (
 	"fmt"
+	"github.com/ebauman/simpleca/cmd/interactive/ca"
+	"github.com/ebauman/simpleca/cmd/interactive/cert"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -22,9 +24,9 @@ var Interactivecmd = &cobra.Command{
 		}
 		switch res {
 		case "ca":
-			Caprompt.Run(cmd, args)
+			ca.Caprompt.Run(cmd, args)
 		case "cert":
-			Certprompt.Run(cmd, args)
+			cert.Certprompt.Run(cmd, args)
 		}
 	},
 }

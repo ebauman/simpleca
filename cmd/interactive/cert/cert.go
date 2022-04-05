@@ -1,7 +1,8 @@
-package interactive
+package cert
 
 import (
 	"fmt"
+	"github.com/ebauman/simpleca/cmd/interactive"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 	"net"
@@ -10,7 +11,7 @@ import (
 )
 
 func init() {
-	Interactivecmd.AddCommand(Certprompt)
+	interactive.Interactivecmd.AddCommand(Certprompt)
 }
 
 var Certprompt = &cobra.Command{
