@@ -2,17 +2,12 @@ package cert
 
 import (
 	"fmt"
-	"github.com/ebauman/simpleca/cmd/interactive"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 	"net"
 	"reflect"
 	"strings"
 )
-
-func init() {
-	interactive.Interactivecmd.AddCommand(Certprompt)
-}
 
 var Certprompt = &cobra.Command{
 	Use:   "cert",

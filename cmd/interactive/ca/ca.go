@@ -2,14 +2,9 @@ package ca
 
 import (
 	"fmt"
-	"github.com/ebauman/simpleca/cmd/interactive"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
-
-func init() {
-	interactive.Interactivecmd.AddCommand(Caprompt)
-}
 
 var Caprompt = &cobra.Command{
 	Use:   "ca",
