@@ -23,7 +23,7 @@ var Certprompt = &cobra.Command{
 		}
 		caName, err = prompt.Run()
 		if err != nil {
-			log.Println("an error has occurred: %w", err)
+			log.Println(err)
 			return
 		}
 		selectUI := promptui.Select{
@@ -32,7 +32,7 @@ var Certprompt = &cobra.Command{
 		}
 		_, res, err := selectUI.Run()
 		if err != nil {
-			log.Println("an error has occurred: %w", err)
+			log.Println(err)
 			return
 		}
 		switch res {
@@ -40,7 +40,7 @@ var Certprompt = &cobra.Command{
 			err = signUI()
 		}
 		if err != nil {
-			log.Println("an error has occurred: %w", err)
+			log.Println(err)
 			return
 		}
 	},

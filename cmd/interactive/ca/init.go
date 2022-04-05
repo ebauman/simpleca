@@ -1,6 +1,7 @@
 package ca
 
 import (
+	"errors"
 	"fmt"
 	"github.com/ebauman/simpleca/file"
 	"github.com/ebauman/simpleca/tls"
@@ -13,10 +14,9 @@ import (
 func initUI() (err error) {
 	var prompts = map[string]promptui.Prompt{
 		"Passphrase": promptui.Prompt{
-			Label:       "Passphrase (default: changeme)",
-			Mask:        '*',
-			HideEntered: true,
-			Default:     "changeme",
+			Label:   "Passphrase (default: changeme)",
+			Mask:    '*',
+			Default: "changeme",
 		},
 		"Country": promptui.Prompt{
 			Label:   "Country code",
@@ -101,9 +101,17 @@ func initUI() (err error) {
 		}
 	}
 
-	if err = file.CheckPath(fmt.Sprintf("%s/%s", certConfig.Path, certConfig.Name)); err != nil {
-		return err
+	confirm := promptui.Prompt{
+		Label:     "Confirm",
+		IsConfirm: true,
 	}
 
+	if _, err = confirm.Run(); err != nil {
+		err = errors.New("process aborted")
+		return
+	}
+	if err = file.CheckPath(fmt.Sprintf("%s/%s", certConfig.Path, certConfig.Name)); err != nil {
+		return
+	}
 	return tls.GenerateCA(certConfig)
 }

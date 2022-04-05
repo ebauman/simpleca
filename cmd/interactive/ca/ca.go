@@ -21,7 +21,7 @@ var Caprompt = &cobra.Command{
 		}
 		_, res, err := prompt.Run()
 		if err != nil {
-			log.Println("an error has occurred:", err)
+			log.Println(err)
 			return
 		}
 
@@ -30,7 +30,7 @@ var Caprompt = &cobra.Command{
 			err = initUI()
 		}
 		if err != nil {
-			log.Println("an error has occurred:", err)
+			log.Println(err)
 		}
 	},
 }

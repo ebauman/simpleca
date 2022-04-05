@@ -1,6 +1,7 @@
 package cert
 
 import (
+	"errors"
 	"github.com/ebauman/simpleca/tls"
 	"github.com/manifoldco/promptui"
 	"net"
@@ -95,6 +96,16 @@ func signUI() (err error) {
 		default:
 			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).SetString(res)
 		}
+	}
+
+	confirm := promptui.Prompt{
+		Label:     "Confirm",
+		IsConfirm: true,
+	}
+
+	if _, err = confirm.Run(); err != nil {
+		err = errors.New("process aborted")
+		return
 	}
 	return tls.SignCert(certConfig, caName)
 }
