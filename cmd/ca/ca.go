@@ -7,9 +7,10 @@ import (
 )
 
 var capath string
+var homeDir, _ = os.UserHomeDir()
 
 func init() {
-	CAcmd.PersistentFlags().StringVar(&capath, "path", os.Getenv("HOME")+"/.simpleca",
+	CAcmd.PersistentFlags().StringVar(&capath, "path", homeDir+"/.simpleca",
 		"path where certificate authorities are stored")
 }
 
