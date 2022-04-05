@@ -1,23 +1,36 @@
 package ca
 
 import (
-	"fmt"
+	"github.com/ebauman/simpleca/file"
+	"github.com/ebauman/simpleca/tls"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
+	"log"
 )
+
+var certConfig = &tls.CertConfig{}
+var caPath = file.ConfPathByOS()
 
 var Caprompt = &cobra.Command{
 	Use:   "ca",
 	Short: "Interactive CA management",
 	Run: func(cmd *cobra.Command, args []string) {
 		prompt := promptui.Select{
-			Label: "Is this interactive CA management prompt?",
-			Items: []string{"yes", "no"},
+			Label: "Choose operation",
+			Items: []string{"init"},
 		}
 		_, res, err := prompt.Run()
 		if err != nil {
-			fmt.Errorf("an error has occured: %w", err)
+			log.Println("an error has occurred:", err)
+			return
 		}
-		fmt.Println("Result:", res)
+
+		switch res {
+		case "init":
+			err = initUI()
+		}
+		if err != nil {
+			log.Println("an error has occurred:", err)
+		}
 	},
 }

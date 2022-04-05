@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"runtime"
 )
 
 func CheckPath(path string) error {
@@ -26,7 +27,7 @@ func CheckPath(path string) error {
 func ExistOrCreate(path string) error {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		// attempt creation
-		err := os.MkdirAll(path, 0700)
+		err = os.MkdirAll(path, 0700)
 		if err != nil {
 			return err
 		}
@@ -65,4 +66,15 @@ func ListDirectories(path string) ([]string, error) {
 
 	return dirs, nil
 
+}
+
+func ConfPathByOS() (path string) {
+	homeDir, _ := os.UserHomeDir()
+	switch osEnv := runtime.GOOS; osEnv {
+	case "windows":
+		path = homeDir + "\\.simpleca"
+	default:
+		path = homeDir + "/.simpleca"
+	}
+	return
 }
