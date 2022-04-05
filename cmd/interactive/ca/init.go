@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/ebauman/simpleca/file"
+	"github.com/ebauman/simpleca/parse"
 	"github.com/ebauman/simpleca/tls"
 	"github.com/manifoldco/promptui"
-	"net"
 	"reflect"
 	"strings"
 )
@@ -28,7 +28,7 @@ func initUI() (err error) {
 		},
 		"Locality": promptui.Prompt{
 			Label:   "Locality",
-			Default: "",
+			Default: "Electric",
 		},
 		"Organization": promptui.Prompt{
 			Label:   "Organization",
@@ -39,28 +39,38 @@ func initUI() (err error) {
 			Default: "SimpleCA Security",
 		},
 		"IPAddresses": promptui.Prompt{
-			Label: "Comma-delimited list of IP Addresses",
+			Label:    "Comma-delimited list of IP Addresses",
+			Validate: parse.ValidateIPAddresses,
+			Default:  "0.0.0.0",
 		},
 		"DNSNames": promptui.Prompt{
-			Label: "Comma-delimited list of DNS Names",
+			Label:    "Comma-delimited list of DNS Names",
+			Validate: parse.ValidateDNSNames,
+			Default:  "ca.simpleca.org",
 		},
 		"EmailAddresses": promptui.Prompt{
-			Label: "Comma-delimited list of Email Addresses",
+			Label:    "Comma-delimited list of Email Addresses",
+			Validate: parse.ValidateEmailAddresses,
+			Default:  "noreply@example.org",
 		},
 		"URIs": promptui.Prompt{
-			Label: "Comma-delimited list of URI Subject Names",
+			Label:    "Comma-delimited list of URI Subject Names",
+			Validate: parse.ValidateURIs,
+			Default:  "https://ca.simpleca.org",
 		},
 		"ExpireIn": promptui.Prompt{
-			Label:   "Duration of CA validity",
-			Default: "1 year",
+			Label:    "Duration of CA validity",
+			Default:  "1 year",
+			Validate: parse.ValidateDuration,
 		},
 		"Name": promptui.Prompt{
 			Label:   "CA Name",
 			Default: "default",
 		},
 		"Path": promptui.Prompt{
-			Label:   "Path to CA store directory",
-			Default: caPath,
+			Label:    "Path to CA store directory",
+			Default:  caPath,
+			Validate: parse.ValidatePath,
 		},
 		"CommonName": promptui.Prompt{
 			Label:   "Common Name",
@@ -78,26 +88,17 @@ func initUI() (err error) {
 			return err
 		}
 
-		slicer := func(s string) (slice []string) {
-			for _, sl := range strings.Split(s, ",") {
-				slice = append(slice, sl)
-			}
-			return
-		}
-
 		switch strings.ToLower(fieldName) {
 		case "ipaddresses":
-			var netIP []net.IP
-			for _, ip := range strings.Split(res, ",") {
-				netIP = append(netIP, net.ParseIP(ip))
-			}
+			ips := parse.ConvertToIPSlice(parse.ConvertToStringSlice(res))
 			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).Set(
-				reflect.ValueOf(netIP))
+				reflect.ValueOf(ips))
 		case "dnsnames", "emailaddresses", "uris":
+			v := parse.ConvertToStringSlice(strings.ToLower(res))
 			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).Set(
-				reflect.ValueOf(slicer(res)))
+				reflect.ValueOf(v))
 		default:
-			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).SetString(res)
+			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).SetString(strings.TrimSpace(res))
 		}
 	}
 

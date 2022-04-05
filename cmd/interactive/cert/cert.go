@@ -10,17 +10,17 @@ import (
 
 var certConfig = &tls.CertConfig{}
 var caName string
-var caPath = file.ConfPathByOS()
+var caPath = file.DefaultConfPath()
 
 var Certprompt = &cobra.Command{
 	Use:   "cert",
 	Short: "Interactive Certificate management",
 	Run: func(cmd *cobra.Command, args []string) {
-		var err error
 		prompt := promptui.Prompt{
 			Label:   "CA Name",
 			Default: "default",
 		}
+		var err error
 		caName, err = prompt.Run()
 		if err != nil {
 			log.Println(err)

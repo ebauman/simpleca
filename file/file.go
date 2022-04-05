@@ -3,7 +3,9 @@ package file
 import (
 	"errors"
 	"io"
+	"log"
 	"os"
+	"path/filepath"
 	"runtime"
 )
 
@@ -68,13 +70,22 @@ func ListDirectories(path string) ([]string, error) {
 
 }
 
-func ConfPathByOS() (path string) {
-	homeDir, _ := os.UserHomeDir()
+func DefaultConfPath() (path string) {
+	var homeDir string
+	var err error
+	homeDir, err = os.UserHomeDir()
+	if err != nil {
+		log.Println(err)
+		return
+	}
 	switch osEnv := runtime.GOOS; osEnv {
 	case "windows":
-		path = homeDir + "\\.simpleca"
+		path, err = filepath.Abs(homeDir + "\\.simpleca")
 	default:
-		path = homeDir + "/.simpleca"
+		path, err = filepath.Abs(homeDir + "/.simpleca")
+	}
+	if err != nil {
+		log.Println(err)
 	}
 	return
 }

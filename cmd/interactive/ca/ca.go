@@ -9,7 +9,7 @@ import (
 )
 
 var certConfig = &tls.CertConfig{}
-var caPath = file.ConfPathByOS()
+var caPath = file.DefaultConfPath()
 
 var Caprompt = &cobra.Command{
 	Use:   "ca",

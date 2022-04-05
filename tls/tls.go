@@ -235,14 +235,14 @@ func decodeKey(data []byte) (*rsa.PrivateKey, error) {
 }
 
 func genCert(conf *CertConfig) (*x509.Certificate, error) {
-	uris, err := parse.ParseURIs(conf.URIs)
+	uris, err := parse.ConvertURIs(conf.URIs)
 	if err != nil {
 		return nil, err
 	}
 
 	var notAfter time.Time
 	if conf.ExpireIn != "" {
-		d, err := parse.ParseDuration(conf.ExpireIn)
+		d, err := parse.ConvertDuration(conf.ExpireIn)
 		if err != nil {
 			return nil, err
 		}
