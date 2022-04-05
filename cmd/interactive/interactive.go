@@ -11,7 +11,7 @@ import (
 // Interactivecmd allows user-input via interactive terminal prompts
 var Interactivecmd = &cobra.Command{
 	Use:   "interactive",
-	Short: "Interactive ca/cert management",
+	Short: "Interactive prompt",
 	Long:  `Manage CA and Certificates using an interactive prompt.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		prompt := promptui.Select{
