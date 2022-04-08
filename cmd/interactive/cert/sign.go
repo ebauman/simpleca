@@ -42,7 +42,6 @@ func signUI() (err error) {
 		"IPAddresses": promptui.Prompt{
 			Label:    "Comma-delimited list of IP Addresses",
 			Validate: parse.ValidateIPAddresses,
-			Default:  "0.0.0.0",
 		},
 		"DNSNames": promptui.Prompt{
 			Label:    "Comma-delimited list of DNS Names",

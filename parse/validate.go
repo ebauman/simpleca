@@ -10,6 +10,9 @@ import (
 // Functions for validating user input
 
 func ValidateIPAddresses(s string) (err error) {
+	if s == "" {
+		return
+	}
 	var invalid []string
 	for _, t := range strings.Split(s, ",") {
 		t = strings.TrimSpace(t)
