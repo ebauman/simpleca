@@ -3,10 +3,10 @@ package cert
 import (
 	"crypto/x509"
 	"fmt"
-	"github.com/ebauman/simpleca/file"
-	"github.com/ebauman/simpleca/table"
-	"github.com/ebauman/simpleca/tls"
 	"github.com/spf13/cobra"
+	"github.com/vltraheaven/simpleca/file"
+	"github.com/vltraheaven/simpleca/table"
+	"github.com/vltraheaven/simpleca/tls"
 	"os"
 )
 

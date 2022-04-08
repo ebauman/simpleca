@@ -3,10 +3,10 @@ package ca
 import (
 	"errors"
 	"fmt"
-	"github.com/ebauman/simpleca/file"
-	"github.com/ebauman/simpleca/parse"
-	"github.com/ebauman/simpleca/tls"
 	"github.com/manifoldco/promptui"
+	"github.com/vltraheaven/simpleca/file"
+	"github.com/vltraheaven/simpleca/parse"
+	"github.com/vltraheaven/simpleca/tls"
 	"reflect"
 	"strings"
 )

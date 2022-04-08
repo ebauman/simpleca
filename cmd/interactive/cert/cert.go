@@ -1,10 +1,10 @@
 package cert
 
 import (
-	"github.com/ebauman/simpleca/file"
-	"github.com/ebauman/simpleca/tls"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
+	"github.com/vltraheaven/simpleca/file"
+	"github.com/vltraheaven/simpleca/tls"
 	"log"
 )
 

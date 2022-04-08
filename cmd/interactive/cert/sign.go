@@ -2,9 +2,9 @@ package cert
 
 import (
 	"errors"
-	"github.com/ebauman/simpleca/parse"
-	"github.com/ebauman/simpleca/tls"
 	"github.com/manifoldco/promptui"
+	"github.com/vltraheaven/simpleca/parse"
+	"github.com/vltraheaven/simpleca/tls"
 	"reflect"
 	"strings"
 )

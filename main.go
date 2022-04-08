@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ebauman/simpleca/cmd"
+	"github.com/vltraheaven/simpleca/cmd"
 )
 
 func main() {

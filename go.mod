@@ -1,6 +1,4 @@
-module github.com/ebauman/simpleca
-
-replace github.com/ebauman/simpleca => ./
+module github.com/vltraheaven/simpleca
 
 go 1.17
 
