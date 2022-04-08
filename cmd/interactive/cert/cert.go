@@ -4,11 +4,9 @@ import (
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 	"github.com/vltraheaven/simpleca/file"
-	"github.com/vltraheaven/simpleca/tls"
 	"log"
 )
 
-var certConfig = &tls.CertConfig{}
 var caName string
 var caPath = file.DefaultConfPath()
 

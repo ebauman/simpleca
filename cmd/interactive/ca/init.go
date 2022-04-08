@@ -8,12 +8,13 @@ import (
 	"github.com/vltraheaven/simpleca/parse"
 	"github.com/vltraheaven/simpleca/tls"
 	"reflect"
-	"strings"
 )
 
 // initUI uses the field names from the certConfig struct to prompt for accompanying user input, then uses the input to
 // initialize a new CA
 func initUI() (err error) {
+	certConfig := tls.NewCertConfig()
+
 	var prompts = map[string]promptui.Prompt{
 		"Passphrase": promptui.Prompt{
 			Label:   "Passphrase (default: changeme)",
@@ -87,20 +88,10 @@ func initUI() (err error) {
 		res, err := prompt.Run()
 		if err != nil {
 			return err
+		} else if res == "" {
+			continue
 		}
-
-		switch strings.ToLower(fieldName) {
-		case "ipaddresses":
-			ips := parse.ConvertToIPSlice(parse.ConvertToStringSlice(res))
-			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).Set(
-				reflect.ValueOf(ips))
-		case "dnsnames", "emailaddresses", "uris":
-			v := parse.ConvertToStringSlice(strings.ToLower(res))
-			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).Set(
-				reflect.ValueOf(v))
-		default:
-			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).SetString(strings.TrimSpace(res))
-		}
+		certConfig.SetField(fieldName, res)
 	}
 
 	confirm := promptui.Prompt{

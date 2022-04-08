@@ -13,7 +13,9 @@ import (
 	"math/big"
 	"net"
 	"os"
+	"reflect"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -43,6 +45,25 @@ type CertConfig struct {
 	EmailAddresses     []string
 	URIs               []string
 	ExpireIn           string
+}
+
+func NewCertConfig() *CertConfig {
+	return &CertConfig{}
+}
+
+func (c *CertConfig) SetField(field, value string) {
+	switch strings.ToLower(field) {
+	case "ipaddresses":
+		ips := parse.ConvertToIPSlice(parse.ConvertToStringSlice(value))
+		reflect.ValueOf(c).Elem().FieldByName(field).Set(
+			reflect.ValueOf(ips))
+	case "dnsnames", "emailaddresses", "uris":
+		v := parse.ConvertToStringSlice(strings.ToLower(value))
+		reflect.ValueOf(c).Elem().FieldByName(field).Set(
+			reflect.ValueOf(v))
+	default:
+		reflect.ValueOf(c).Elem().FieldByName(field).SetString(value)
+	}
 }
 
 func FullCAPath(conf *CertConfig) string {
