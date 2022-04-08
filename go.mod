@@ -1,5 +1,7 @@
 module github.com/ebauman/simpleca
 
+replace github.com/ebauman/simpleca => ./
+
 go 1.17
 
 require (
