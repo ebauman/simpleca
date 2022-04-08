@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+// signUI uses the field names from the certConfig struct to prompt for accompanying user input and signs a new cert
+// with the resulting data
 func signUI() (err error) {
 	var prompts = map[string]promptui.Prompt{
 		"Passphrase": promptui.Prompt{
@@ -72,8 +74,9 @@ func signUI() (err error) {
 			Validate: parse.ValidatePath,
 		},
 		"CommonName": promptui.Prompt{
-			Label:   "Common Name",
-			Default: "www.simpleca.org",
+			Label:    "Common Name",
+			Default:  "www.simpleca.org",
+			Validate: parse.ValidateDNSNames,
 		},
 	}
 	fields := reflect.TypeOf(tls.CertConfig{})

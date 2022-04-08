@@ -11,6 +11,7 @@ import (
 var certConfig = &tls.CertConfig{}
 var caPath = file.DefaultConfPath()
 
+// Caprompt contains interactive prompt logic for CA management
 var Caprompt = &cobra.Command{
 	Use:   "ca",
 	Short: "Interactive CA management",

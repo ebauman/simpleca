@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+// initUI uses the field names from the certConfig struct to prompt for accompanying user input, then uses the input to
+// initialize a new CA
 func initUI() (err error) {
 	var prompts = map[string]promptui.Prompt{
 		"Passphrase": promptui.Prompt{

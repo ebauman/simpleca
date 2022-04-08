@@ -12,6 +12,7 @@ var certConfig = &tls.CertConfig{}
 var caName string
 var caPath = file.DefaultConfPath()
 
+// Certprompt contains interactive prompt logic for certificate management
 var Certprompt = &cobra.Command{
 	Use:   "cert",
 	Short: "Interactive Certificate management",
