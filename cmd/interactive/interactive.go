@@ -20,7 +20,7 @@ var Interactivecmd = &cobra.Command{
 		}
 		_, res, err := prompt.Run()
 		if err != nil {
-			log.Println("an error has occured: %w", err)
+			log.Println(err)
 			return
 		}
 		switch res {
@@ -29,6 +29,7 @@ var Interactivecmd = &cobra.Command{
 		case "cert":
 			cert.Certprompt.Run(cmd, args)
 		}
+		return
 	},
 }
 

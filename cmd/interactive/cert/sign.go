@@ -12,6 +12,7 @@ import (
 // with the resulting data
 func signUI() (err error) {
 	certConfig := tls.NewCertConfig()
+	certConfig.Path = caPath
 
 	var prompts = map[string]promptui.Prompt{
 		"Passphrase": promptui.Prompt{
@@ -68,11 +69,6 @@ func signUI() (err error) {
 			Label:   "Certificate Name",
 			Default: "default-cert",
 		},
-		"Path": promptui.Prompt{
-			Label:    "Path to CA store directory",
-			Default:  caPath,
-			Validate: parse.ValidatePath,
-		},
 		"CommonName": promptui.Prompt{
 			Label:    "Common Name",
 			Default:  "www.simpleca.org",
@@ -83,7 +79,10 @@ func signUI() (err error) {
 
 	for i := 0; i < fields.NumField(); i++ {
 		fieldName := fields.Field(i).Name
-		prompt := prompts[fieldName]
+		prompt, ok := prompts[fieldName]
+		if !ok {
+			continue
+		}
 		res, err := prompt.Run()
 		if err != nil {
 			return err
