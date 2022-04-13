@@ -1,9 +1,9 @@
 package ca
 
 import (
+	"github.com/ebauman/simpleca/file"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
-	"github.com/vltraheaven/simpleca/file"
 	"log"
 )
 

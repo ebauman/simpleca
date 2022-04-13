@@ -2,11 +2,11 @@ package cert
 
 import (
 	"fmt"
+	"github.com/ebauman/simpleca/cmd/interactive/ca"
+	"github.com/ebauman/simpleca/file"
+	"github.com/ebauman/simpleca/parse"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
-	"github.com/vltraheaven/simpleca/cmd/interactive/ca"
-	"github.com/vltraheaven/simpleca/file"
-	"github.com/vltraheaven/simpleca/parse"
 	"log"
 )
 

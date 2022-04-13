@@ -2,8 +2,8 @@ package ca
 
 import (
 	"fmt"
-	"github.com/vltraheaven/simpleca/file"
-	"github.com/vltraheaven/simpleca/tls"
+	"github.com/ebauman/simpleca/file"
+	"github.com/ebauman/simpleca/tls"
 )
 
 func ListCAs(path string) (cas []string, err error) {

@@ -1,4 +1,4 @@
-module github.com/vltraheaven/simpleca
+module github.com/ebauman/simpleca
 
 go 1.17
 

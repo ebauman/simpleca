@@ -1,10 +1,10 @@
 package interactive
 
 import (
+	"github.com/ebauman/simpleca/cmd/interactive/ca"
+	"github.com/ebauman/simpleca/cmd/interactive/cert"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
-	"github.com/vltraheaven/simpleca/cmd/interactive/ca"
-	"github.com/vltraheaven/simpleca/cmd/interactive/cert"
 	"log"
 )
 

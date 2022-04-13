@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/ebauman/simpleca/cmd/ca"
+	"github.com/ebauman/simpleca/cmd/cert"
+	"github.com/ebauman/simpleca/cmd/interactive"
 	"github.com/spf13/cobra"
-	"github.com/vltraheaven/simpleca/cmd/ca"
-	"github.com/vltraheaven/simpleca/cmd/cert"
-	"github.com/vltraheaven/simpleca/cmd/interactive"
 	"os"
 )
 
