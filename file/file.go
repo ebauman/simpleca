@@ -3,7 +3,10 @@ package file
 import (
 	"errors"
 	"io"
+	"log"
 	"os"
+	"path/filepath"
+	"runtime"
 )
 
 func CheckPath(path string) error {
@@ -26,7 +29,7 @@ func CheckPath(path string) error {
 func ExistOrCreate(path string) error {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		// attempt creation
-		err := os.MkdirAll(path, 0700)
+		err = os.MkdirAll(path, 0700)
 		if err != nil {
 			return err
 		}
@@ -65,4 +68,24 @@ func ListDirectories(path string) ([]string, error) {
 
 	return dirs, nil
 
+}
+
+func DefaultConfPath() (path string) {
+	var homeDir string
+	var err error
+	homeDir, err = os.UserHomeDir()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	switch osEnv := runtime.GOOS; osEnv {
+	case "windows":
+		path, err = filepath.Abs(homeDir + "\\.simpleca")
+	default:
+		path, err = filepath.Abs(homeDir + "/.simpleca")
+	}
+	if err != nil {
+		log.Println(err)
+	}
+	return
 }

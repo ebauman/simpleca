@@ -1,20 +1,19 @@
 package cert
 
 import (
-	"fmt"
 	"github.com/ebauman/simpleca/tls"
 	"github.com/spf13/cobra"
 	"os"
 )
 
 var certConfig = &tls.CertConfig{}
-
+var homeDir, _ = os.UserHomeDir()
 var caName string
 
 func init() {
 	Certcmd.PersistentFlags().StringVar(&caName, "ca", "default",
 		"name of the ca to use")
-	Certcmd.PersistentFlags().StringVar(&certConfig.Path, "ca-path", fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".simpleca"),
+	Certcmd.PersistentFlags().StringVar(&certConfig.Path, "ca-path", homeDir+"/.simpleca",
 		"path where certificate authorities are stored")
 }
 

@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func ParseDuration(durationString string) (*time.Time, error) {
+func ConvertDuration(durationString string) (*time.Time, error) {
 	// format is # (second, minute, hour, month, year)
 	durationArray := strings.Split(durationString, " ")
 	if len(durationArray) < 2 {
