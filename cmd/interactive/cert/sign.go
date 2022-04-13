@@ -2,16 +2,18 @@ package cert
 
 import (
 	"errors"
-	"github.com/ebauman/simpleca/parse"
-	"github.com/ebauman/simpleca/tls"
 	"github.com/manifoldco/promptui"
+	"github.com/vltraheaven/simpleca/parse"
+	"github.com/vltraheaven/simpleca/tls"
 	"reflect"
-	"strings"
 )
 
 // signUI uses the field names from the certConfig struct to prompt for accompanying user input and signs a new cert
 // with the resulting data
 func signUI() (err error) {
+	certConfig := tls.NewCertConfig()
+	certConfig.Path = caPath
+
 	var prompts = map[string]promptui.Prompt{
 		"Passphrase": promptui.Prompt{
 			Label:       "Passphrase (default: changeme)",
@@ -42,7 +44,6 @@ func signUI() (err error) {
 		"IPAddresses": promptui.Prompt{
 			Label:    "Comma-delimited list of IP Addresses",
 			Validate: parse.ValidateIPAddresses,
-			Default:  "0.0.0.0",
 		},
 		"DNSNames": promptui.Prompt{
 			Label:    "Comma-delimited list of DNS Names",
@@ -68,11 +69,6 @@ func signUI() (err error) {
 			Label:   "Certificate Name",
 			Default: "default-cert",
 		},
-		"Path": promptui.Prompt{
-			Label:    "Path to CA store directory",
-			Default:  caPath,
-			Validate: parse.ValidatePath,
-		},
 		"CommonName": promptui.Prompt{
 			Label:    "Common Name",
 			Default:  "www.simpleca.org",
@@ -83,24 +79,17 @@ func signUI() (err error) {
 
 	for i := 0; i < fields.NumField(); i++ {
 		fieldName := fields.Field(i).Name
-		prompt := prompts[fieldName]
+		prompt, ok := prompts[fieldName]
+		if !ok {
+			continue
+		}
 		res, err := prompt.Run()
 		if err != nil {
 			return err
+		} else if res == "" {
+			continue
 		}
-
-		switch strings.ToLower(fieldName) {
-		case "ipaddresses":
-			ips := parse.ConvertToIPSlice(parse.ConvertToStringSlice(res))
-			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).Set(
-				reflect.ValueOf(ips))
-		case "dnsnames", "emailaddresses", "uris":
-			v := parse.ConvertToStringSlice(strings.ToLower(res))
-			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).Set(
-				reflect.ValueOf(v))
-		default:
-			reflect.ValueOf(certConfig).Elem().FieldByName(fieldName).SetString(res)
-		}
+		certConfig.SetField(fieldName, res)
 	}
 
 	confirm := promptui.Prompt{

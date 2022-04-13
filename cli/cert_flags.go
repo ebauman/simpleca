@@ -1,8 +1,8 @@
 package cli
 
 import (
-	"github.com/ebauman/simpleca/tls"
 	"github.com/spf13/cobra"
+	"github.com/vltraheaven/simpleca/tls"
 	"net"
 )
 

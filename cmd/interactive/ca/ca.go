@@ -1,14 +1,12 @@
 package ca
 
 import (
-	"github.com/ebauman/simpleca/file"
-	"github.com/ebauman/simpleca/tls"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
+	"github.com/vltraheaven/simpleca/file"
 	"log"
 )
 
-var certConfig = &tls.CertConfig{}
 var caPath = file.DefaultConfPath()
 
 // Caprompt contains interactive prompt logic for CA management

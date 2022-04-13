@@ -1,9 +1,9 @@
 package cert
 
 import (
-	"github.com/ebauman/simpleca/cli"
-	"github.com/ebauman/simpleca/tls"
 	"github.com/spf13/cobra"
+	"github.com/vltraheaven/simpleca/cli"
+	"github.com/vltraheaven/simpleca/tls"
 )
 
 func init() {

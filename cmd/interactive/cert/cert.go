@@ -1,14 +1,15 @@
 package cert
 
 import (
-	"github.com/ebauman/simpleca/file"
-	"github.com/ebauman/simpleca/tls"
+	"fmt"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
+	"github.com/vltraheaven/simpleca/cmd/interactive/ca"
+	"github.com/vltraheaven/simpleca/file"
+	"github.com/vltraheaven/simpleca/parse"
 	"log"
 )
 
-var certConfig = &tls.CertConfig{}
 var caName string
 var caPath = file.DefaultConfPath()
 
@@ -17,17 +18,36 @@ var Certprompt = &cobra.Command{
 	Use:   "cert",
 	Short: "Interactive Certificate management",
 	Run: func(cmd *cobra.Command, args []string) {
-		prompt := promptui.Prompt{
-			Label:   "CA Name",
-			Default: "default",
+		promptPath := promptui.Prompt{
+			Label:    "Enter path to CA storage directory",
+			Validate: parse.ValidatePath,
+			Default:  caPath,
 		}
-		var err error
-		caName, err = prompt.Run()
+		p, err := promptPath.Run()
 		if err != nil {
 			log.Println(err)
 			return
 		}
+		if p != "" || p != caPath {
+			caPath = p
+		}
+
+		cas, err := ca.ListCAs(caPath)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
 		selectUI := promptui.Select{
+			Label: "Choose CA",
+			Items: cas,
+		}
+		_, caName, err = selectUI.Run()
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		selectUI = promptui.Select{
 			Label: "Choose operation",
 			Items: []string{"sign"},
 		}
@@ -36,13 +56,14 @@ var Certprompt = &cobra.Command{
 			log.Println(err)
 			return
 		}
+
 		switch res {
 		case "sign":
 			err = signUI()
 		}
 		if err != nil {
-			log.Println(err)
-			return
+			fmt.Println(err)
 		}
+		return
 	},
 }
